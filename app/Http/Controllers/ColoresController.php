@@ -15,7 +15,7 @@ class ColoresController extends Controller
      */
     public function index()
     {
-        $colors = Colores::all();
+        $colors = Colores::paginate(6);
         return $colors;
     }
 

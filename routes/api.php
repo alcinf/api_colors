@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ColoresController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +16,12 @@ use App\Http\Controllers\ColoresController;
 |
 */
 
-/*
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('login/',[UserController::class, 'login']);
+//Route::get('colores/',[ColoresController::class, 'index']);
+Route::middleware(['auth:api', 'role'])->group(function() {
+    Route::middleware(['scope:admin,user'])->get('colores/',[ColoresController::class, 'index']);
+    Route::middleware(['scope:admin,user'])->get('colores/{colores}',[ColoresController::class, 'show']);
+    Route::middleware(['scope:admin'])->post('colores/',[ColoresController::class, 'store']);
+    Route::middleware(['scope:admin'])->match( ['PUT', 'PATCH'], 'colores/{colores}', [ColoresController::class, 'update']);
+    Route::middleware(['scope:admin'])->delete('/colores/{colores}', [ColoresController::class, 'destroy']);
 });
-*/
-
-//Route::apiResource('colores/',ColoresController::class);
-//Route::apiResource('photos', PhotoController::class);
-
-Route::GET('colores/',[ColoresController::class, 'index']);
-Route::GET('colores/{colores}',[ColoresController::class, 'show']);
-Route::POST('colores/',[ColoresController::class, 'store']);
-Route::MATCH( ['PUT', 'PATCH'], 'colores/{colores}', [ColoresController::class, 'update']);
-Route::DELETE('/colores/{colores}', [ColoresController::class, 'destroy']);
