@@ -7,7 +7,7 @@ This API provides methods to manage colors for be choosen in a company. It allos
 ## Technologies
 For this is used the core of Laravel, installed with composer. For the security is added Laravel/Passport.
 
-## versions
+## Versions
 Composer 2.08
 Laravel 8.50
 Passport 10.1
@@ -20,5 +20,3 @@ Passport 10.1
 
 ## Repository
 Search this repo in GitHub: https://github.com/alcinf/api_colors
-
-##
