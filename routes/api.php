@@ -25,4 +25,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::apiResource('photos', PhotoController::class);
 
 Route::GET('colores/',[ColoresController::class, 'index']);
+Route::GET('colores/{colores}',[ColoresController::class, 'show']);
 Route::POST('colores/',[ColoresController::class, 'store']);
+Route::MATCH( ['PUT', 'PATCH'], 'colores/{colores}', [ColoresController::class, 'update']);
+Route::DELETE('/colores/{colores}', [ColoresController::class, 'destroy']);

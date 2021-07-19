@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Colores;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ColoresController extends Controller
 {
@@ -38,18 +39,7 @@ class ColoresController extends Controller
      */
     public function show(Colores $colores)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Colores  $colores
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Colores $colores)
-    {
-        //
+        return $colores;
     }
 
     /**
@@ -61,7 +51,28 @@ class ColoresController extends Controller
      */
     public function update(Request $request, Colores $colores)
     {
-        //
+        $data = array();
+        if( $request->filled('name') )
+            $data['name'] = $request->name;
+        if( $request->filled('color') )
+            $data['color'] = $request->color;
+        if( $request->filled('pantone') )
+            $data['pantone'] = $request->pantone;
+        if( $request->filled('year') )
+            $data['year'] = $request->year;
+        //print_r($data); exit;
+        if ( empty( $data ) ) {
+            return response()->json([
+                'status' => Response::HTTP_BAD_REQUEST,
+                'message' => 'No data',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        $colores->update($data);
+        return response()->json([
+            'status' => Response::HTTP_OK,
+            'message' => 'Record updated',
+            'data' => $colores,
+        ], Response::HTTP_OK);
     }
 
     /**
@@ -72,6 +83,11 @@ class ColoresController extends Controller
      */
     public function destroy(Colores $colores)
     {
-        //
+        $colores->delete();
+        return response()->json([
+            'status' => Response::HTTP_OK,
+            'message' => 'Record deleted',
+            'data' => $colores,
+        ], Response::HTTP_OK);
     }
 }
