@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\User;
 
 class UserController
 {
@@ -22,7 +23,6 @@ class UserController
         if(Auth::attempt($data)){
             $user = Auth::user();
             $loginData['token'] = $user->createToken('ColorToken')->accessToken;
-            return response()->json(['Welcome', 200]);
             return response()->json([
                 'status' => 200
                 ,'message' => 'Welcome'
@@ -34,6 +34,19 @@ class UserController
                 'message' => 'Sorry, wrong email address or password. Please try again',
             ], Response::HTTP_UNAUTHORIZED);
         }
+    }
+
+    public function register(Request $request)
+    {
+        $data = $request->all();
+        $data['password'] = bcrypt($data['password']);
+        $user = User::create($data);
+        $loginData['token'] = $user->createToken('ColorToken')->accessToken;
+        return response()->json([
+            'status' => 200
+            ,'message' => 'Welcome new user'
+            ,'data' => $loginData
+        ], 200);
     }
 
 }

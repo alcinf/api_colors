@@ -17,11 +17,12 @@ use App\Http\Controllers\UserController;
 */
 
 Route::post('login/',[UserController::class, 'login']);
+Route::post('register/',[UserController::class, 'register']);
 //Route::get('colores/',[ColoresController::class, 'index']);
-Route::middleware(['auth:api', 'role'])->group(function() {
-    Route::middleware(['scope:admin,user'])->get('colores/',[ColoresController::class, 'index']);
-    Route::middleware(['scope:admin,user'])->get('colores/{colores}',[ColoresController::class, 'show']);
-    Route::middleware(['scope:admin'])->post('colores/',[ColoresController::class, 'store']);
-    Route::middleware(['scope:admin'])->match( ['PUT', 'PATCH'], 'colores/{colores}', [ColoresController::class, 'update']);
-    Route::middleware(['scope:admin'])->delete('/colores/{colores}', [ColoresController::class, 'destroy']);
+Route::middleware(['auth:api'])->group(function() {
+    Route::get('colores/',[ColoresController::class, 'index']);
+    Route::get('colores/{colores}',[ColoresController::class, 'show']);
+    Route::post('colores/',[ColoresController::class, 'store']);
+    Route::match( ['PUT', 'PATCH'], 'colores/{colores}', [ColoresController::class, 'update']);
+    Route::delete('/colores/{colores}', [ColoresController::class, 'destroy']);
 });
